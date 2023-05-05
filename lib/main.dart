@@ -1,27 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:stocio_app/auth/screens/login_screen.dart';
+import 'package:stocio_app/home/screens/home_screen.dart';
+import 'package:stocio_app/splash_screen.dart';
+import 'package:stocio_app/common/utils/common_utils.dart';
 
 void main() {
-  runApp(const MyApp(initRoute: "/"));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final String initRoute;
-
-  const MyApp({super.key, required this.initRoute});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
-        return MaterialApp(
-          title: 'Stocio',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
+        return OverlaySupport.global(
+          child: MaterialApp(
+            title: 'Stocio',
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              textTheme: Theme.of(context).textTheme.apply(
+                displayColor: Utils.color('pt'),
+                bodyColor: Utils.color('pt'),
+              ),
+              useMaterial3: true,
+            ),
+            initialRoute: "/",
+            routes: {
+              "/": (context) => const SafeArea(child: SplashScreen()),
+              "/login": (context) => const LoginScreen(),
+              "/home": (context) => const HomeScreen(),
+            },
           ),
-          initialRoute: initRoute,
         );
       },
     );
