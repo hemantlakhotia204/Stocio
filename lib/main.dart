@@ -22,10 +22,14 @@ class MyApp extends StatelessWidget {
           child: MaterialApp(
             title: 'Stocio',
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              colorScheme: ColorScheme.fromSeed(seedColor: Utils.color('sbg')),
               textTheme: Theme.of(context).textTheme.apply(
                 displayColor: Utils.color('pt'),
                 bodyColor: Utils.color('pt'),
+              ),
+              iconTheme: IconThemeData(
+                color: Utils.color('pb'),
+                size: 22.sp,
               ),
               useMaterial3: true,
             ),

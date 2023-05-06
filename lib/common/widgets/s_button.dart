@@ -40,7 +40,7 @@ class _SButtonState extends State<SButton> {
           ),
           alignment: Alignment.center,
           child: Text(widget.label,
-              style: widget.style ?? TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w500, color: Utils.color("st"))),
+              style: widget.style ?? TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w500, color: Utils.color(""))),
         ),
       ),
     );

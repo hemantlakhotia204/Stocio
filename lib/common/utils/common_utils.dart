@@ -12,18 +12,26 @@ class Utils {
   }
 
   static color([String type = '']) {
+
+    const primaryColor = Color(0xfff8f8fa);
+    const secondaryColor = Color(0xff3456ff);
+    const textColor = Color(0xff070928);
+
     switch (type) {
       case 'pbg':
+        return primaryColor;
       case 'sbg':
-        return const Color(0xffffffff);
+        return Colors.white;
       case 'pb':
-        return const Color(0xff2f2e2e);
+        return secondaryColor;
+      case 'sb':
+        return textColor;
       case 'pt':
-        return const Color(0xff2f2e2e);
+        return textColor;
       case 'st':
-        return const Color(0xffffffff);
+        return textColor.withOpacity(0.7);
       case 'ba':
-        return Colors.blueAccent;
+        return secondaryColor;
       default:
         return Colors.white;
     }
@@ -61,16 +69,16 @@ class Utils {
 
   static inputDecoration({required String label, Widget? suffixIcon}) {
     return InputDecoration(
-      label: Text(label, style: TextStyle(fontSize: 16.sp),),
+      label: Text(label, style: TextStyle(fontSize: 16.sp, color: Utils.color('pt')),),
       contentPadding: EdgeInsets.symmetric(vertical: 2.5.h, horizontal: 5.w),
       suffixIcon: suffixIcon,
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(2.w),
-        borderSide: BorderSide(color: Utils.color("pb"), width: 0.5.w),
+        borderSide: BorderSide(color: Utils.color("sb"), width: 0.5.w),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(2.w),
-        borderSide: BorderSide(color: Utils.color("pb").withOpacity(0.5), width: 0.5.w),
+        borderSide: BorderSide(color: Utils.color("sb").withOpacity(0.5), width: 0.5.w),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(2.w),
