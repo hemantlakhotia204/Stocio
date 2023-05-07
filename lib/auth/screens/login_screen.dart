@@ -19,6 +19,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passKey = GlobalKey<FormState>();
 
   @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Utils.color('pbg'),
@@ -40,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: TextFormField(
                       controller: _emailController,
                       validator: (String? value) => Utils.validator(value, 'email'),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: Utils.inputDecoration(label: 'Email*'),
                     ),
                   ),
@@ -50,8 +58,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: EdgeInsets.symmetric(vertical: 1.h),
                     child: TextFormField(
                       controller: _passController,
-                      decoration: Utils.inputDecoration(label: 'Password*'),
                       validator: (String? value) => Utils.validator(value),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: Utils.inputDecoration(label: 'Password*'),
                     ),
                   ),
                 ),
@@ -72,7 +81,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 5.h),
                 InkWell(
-                  onTap: () => Utils.customToast("joining"),
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                    Navigator.of(context).pushNamed("/register");
+                  },
                   child: RichText(
                     text: TextSpan(
                         text: 'Still not part of Stocio? ',
@@ -102,13 +114,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (state1 != null && state2 != null) {
         if (state1.validate() && state2.validate()) {
-          Utils.customToast("Logging in");
           // String email = _emailController.text.trim();
           // String pass = _passController.text.trim();
           // do login
 
           await SharedPrefRepo.save("at", "at");
-          if(!mounted) return;
+          if (!mounted) return;
+          Utils.customToast("User logged in");
           Navigator.of(context).pushReplacementNamed("/home");
         }
       }

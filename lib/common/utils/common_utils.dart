@@ -4,7 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Utils {
   static screenPadding() {
-    return EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w);
+    return EdgeInsets.symmetric(vertical: 3.h, horizontal: 5.w);
   }
 
   static contentPadding() {
@@ -69,7 +69,7 @@ class Utils {
 
   static inputDecoration({required String label, Widget? suffixIcon}) {
     return InputDecoration(
-      label: Text(label, style: TextStyle(fontSize: 16.sp, color: Utils.color('pt')),),
+      label: Text(label, style: TextStyle(fontSize: 16.sp, color: Utils.color('pt'), letterSpacing: 2.sp),),
       contentPadding: EdgeInsets.symmetric(vertical: 2.5.h, horizontal: 5.w),
       suffixIcon: suffixIcon,
       focusedBorder: OutlineInputBorder(

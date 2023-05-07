@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:stocio_app/auth/screens/login_screen.dart';
+import 'package:stocio_app/auth/screens/register_screen.dart';
 import 'package:stocio_app/home/screens/home_screen.dart';
 import 'package:stocio_app/splash_screen.dart';
 import 'package:stocio_app/common/utils/common_utils.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
             routes: {
               "/": (context) => const SafeArea(child: SplashScreen()),
               "/login": (context) => const LoginScreen(),
+              "/register": (context) => const RegisterScreen(),
               "/home": (context) => const HomeScreen(),
             },
           ),

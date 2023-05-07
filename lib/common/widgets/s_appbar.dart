@@ -25,7 +25,7 @@ class _SAppbarState extends State<SAppbar> {
       leading: widget.backPress!=null && widget.backPress! ? _leading() : const SizedBox(),
       title: Text(
         widget.title ?? "",
-        style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
       ),
       elevation: 0,
       actions: widget.actions,
