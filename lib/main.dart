@@ -4,6 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:stocio_app/auth/screens/login_screen.dart';
 import 'package:stocio_app/auth/screens/register_screen.dart';
 import 'package:stocio_app/home/screens/home_screen.dart';
+import 'package:stocio_app/profile/profile_screen.dart';
 import 'package:stocio_app/splash_screen.dart';
 import 'package:stocio_app/common/utils/common_utils.dart';
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
               textTheme: Theme.of(context).textTheme.apply(
                 displayColor: Utils.color('pt'),
                 bodyColor: Utils.color('pt'),
+                fontFamily: 'Signika',
               ),
               iconTheme: IconThemeData(
                 color: Utils.color('pb'),
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
               "/login": (context) => const LoginScreen(),
               "/register": (context) => const RegisterScreen(),
               "/home": (context) => const HomeScreen(),
+              "/profile": (context) => const ProfileScreen(),
             },
           ),
         );

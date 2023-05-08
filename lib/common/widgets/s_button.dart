@@ -8,6 +8,7 @@ class SButton extends StatefulWidget {
   final EdgeInsets? padding, margin;
   final TextStyle? style;
   final Color? backgroundColor;
+  final double? height, width, fontSize;
 
   const SButton({
     Key? key,
@@ -17,6 +18,9 @@ class SButton extends StatefulWidget {
     this.margin,
     this.style,
     this.backgroundColor,
+    this.height,
+    this.width,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -32,15 +36,15 @@ class _SButtonState extends State<SButton> {
         onTap: () => widget.onTap(),
         child: Container(
           padding: widget.padding ?? Utils.contentPadding(),
-          width: 60.w,
-          height: 7.h,
+          width: widget.width ?? 60.w,
+          height: widget.height ?? 7.h,
           decoration: BoxDecoration(
             color: widget.backgroundColor ?? Utils.color('pb'),
             borderRadius: BorderRadius.all(Radius.circular(10.w)),
           ),
           alignment: Alignment.center,
           child: Text(widget.label,
-              style: widget.style ?? TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w500, color: Utils.color(""))),
+              style: widget.style ?? TextStyle(fontSize: widget.fontSize ?? 17.sp, fontWeight: FontWeight.w500, color: Utils.color(""))),
         ),
       ),
     );

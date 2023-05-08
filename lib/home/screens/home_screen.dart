@@ -1,8 +1,8 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:stocio_app/common/store/shared_preference_repo.dart';
 import 'package:stocio_app/common/utils/common_utils.dart';
 import 'package:stocio_app/common/widgets/s_appbar.dart';
+import 'package:stocio_app/home/screens/views/org_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,23 +25,23 @@ class _HomeScreenState extends State<HomeScreen> {
   _appBar() {
     switch (_selectedIndex) {
       case 0:
-      case 1:
-      case 2:
-        return const SAppbar();
-      case 3:
         return SAppbar(
-          title: 'Profile',
-          centerTitle: true,
+          title: 'Welcome,',
           actions: [
-            IconButton(
-                onPressed: () async {
-                  await SharedPrefRepo.remove("at");
-                  if (!mounted) return;
-                  await Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-                },
-                icon: const Icon(Icons.logout_rounded))
+            IconButton(onPressed: () => Navigator.pushNamed(context, '/profile'), icon: const Icon(Icons.person_rounded)),
           ],
         );
+      case 1:
+        return SAppbar(
+          title: '',
+          actions: [
+            IconButton(onPressed: () => Navigator.pushNamed(context, '/profile'), icon: const Icon(Icons.person_rounded)),
+          ],
+        );
+      case 2:
+      case 3:
+        return const SAppbar();
+
     }
   }
 
@@ -59,9 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: _pageController,
         children: const [
           Center(child: Text('Dashboard')),
+          OrgScreen(),
           Center(child: Text('Users')),
           Center(child: Text('Messages')),
-          Center(child: Text('Settings')),
         ],
       ),
       bottomNavigationBar: BottomNavyBar(
@@ -79,6 +79,11 @@ class _HomeScreenState extends State<HomeScreen> {
               activeColor: Utils.color('pb'),
               inactiveColor: Utils.color('sb')),
           BottomNavyBarItem(
+              icon: const Icon(Icons.people_rounded),
+              title: const Text('Organizations'),
+              activeColor: Utils.color('pb'),
+              inactiveColor: Utils.color('sb')),
+          BottomNavyBarItem(
               icon: const Icon(Icons.event_rounded),
               title: const Text('Events'),
               activeColor: Utils.color('pb'),
@@ -86,11 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavyBarItem(
               icon: const Icon(Icons.forum_rounded),
               title: const Text('Forum'),
-              activeColor: Utils.color('pb'),
-              inactiveColor: Utils.color('sb')),
-          BottomNavyBarItem(
-              icon: const Icon(Icons.person_rounded),
-              title: const Text('Profile'),
               activeColor: Utils.color('pb'),
               inactiveColor: Utils.color('sb')),
         ],
