@@ -6,9 +6,10 @@ class SButton extends StatefulWidget {
   final Function onTap;
   final String label;
   final EdgeInsets? padding, margin;
-  final TextStyle? style;
+  final TextStyle? labelStyle;
   final Color? backgroundColor;
   final double? height, width, fontSize;
+  final Widget? suffixWidget;
 
   const SButton({
     Key? key,
@@ -16,11 +17,12 @@ class SButton extends StatefulWidget {
     required this.label,
     this.padding,
     this.margin,
-    this.style,
+    this.labelStyle,
     this.backgroundColor,
     this.height,
     this.width,
     this.fontSize,
+    this.suffixWidget,
   }) : super(key: key);
 
   @override
@@ -39,12 +41,23 @@ class _SButtonState extends State<SButton> {
           width: widget.width ?? 60.w,
           height: widget.height ?? 7.h,
           decoration: BoxDecoration(
-            color: widget.backgroundColor ?? Utils.color('pb'),
-            borderRadius: BorderRadius.all(Radius.circular(10.w)),
-          ),
+              color: widget.backgroundColor ?? Utils.color('pb'),
+              borderRadius: BorderRadius.circular(10.w),
+              border: Border.all(color: Utils.color('pt'))),
           alignment: Alignment.center,
-          child: Text(widget.label,
-              style: widget.style ?? TextStyle(fontSize: widget.fontSize ?? 17.sp, fontWeight: FontWeight.w500, color: Utils.color(""))),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(10.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(widget.label,
+                    style: widget.labelStyle ??
+                        TextStyle(
+                            fontSize: widget.fontSize ?? 18.sp, fontWeight: FontWeight.w500, color: Utils.color(""))),
+                widget.suffixWidget ?? const SizedBox(),
+              ],
+            ),
+          ),
         ),
       ),
     );

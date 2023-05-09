@@ -32,6 +32,8 @@ class Utils {
         return textColor.withOpacity(0.7);
       case 'ba':
         return secondaryColor;
+      case 'border':
+        return textColor;
       default:
         return Colors.white;
     }

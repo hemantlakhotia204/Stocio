@@ -55,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               Text(
-                '1195110\nJoined since 2019',
+                '1195110\nMember since 2023',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500, color: Utils.color('st')),
               ),
@@ -70,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Account Setting',
+                        'Account Settings',
                         style: TextStyle(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w600,

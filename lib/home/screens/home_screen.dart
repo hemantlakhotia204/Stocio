@@ -2,6 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:stocio_app/common/utils/common_utils.dart';
 import 'package:stocio_app/common/widgets/s_appbar.dart';
+import 'package:stocio_app/home/screens/views/event_sceen.dart';
 import 'package:stocio_app/home/screens/views/org_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -39,6 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         );
       case 2:
+        return SAppbar(
+          title: '',
+          actions: [
+            IconButton(onPressed: () => Navigator.pushNamed(context, '/profile'), icon: const Icon(Icons.person_rounded)),
+          ],
+        );
       case 3:
         return const SAppbar();
 
@@ -60,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: const [
           Center(child: Text('Dashboard')),
           OrgScreen(),
-          Center(child: Text('Users')),
+          EventScreen(),
           Center(child: Text('Messages')),
         ],
       ),

@@ -85,7 +85,7 @@ class _OrgScreenState extends State<OrgScreen> {
               width: 87.w,
               decoration: BoxDecoration(
                 color: Utils.color('sb'),
-                border: Border.all(color: Utils.color('sb'), width: 2),
+                border: Border.all(color: Utils.color('border'), width: 2),
               ),
             ),
           ),
@@ -95,7 +95,7 @@ class _OrgScreenState extends State<OrgScreen> {
             padding: Utils.contentPadding(),
             decoration: BoxDecoration(
               color: Utils.color('sbg'),
-              border: Border.all(color: Utils.color('sb'), width: 2),
+              border: Border.all(color: Utils.color('border'), width: 2),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
