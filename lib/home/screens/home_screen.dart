@@ -2,7 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:stocio_app/common/utils/common_utils.dart';
 import 'package:stocio_app/common/widgets/s_appbar.dart';
-import 'package:stocio_app/home/screens/views/event_sceen.dart';
+import 'package:stocio_app/home/screens/views/event_screen.dart';
 import 'package:stocio_app/home/screens/views/org_screen.dart';
 
 class HomeScreen extends StatefulWidget {

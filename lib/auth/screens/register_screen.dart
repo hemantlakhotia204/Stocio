@@ -2,6 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:stocio_app/auth/models/institute_model.dart';
+import 'package:stocio_app/auth/models/register_model.dart';
+import 'package:stocio_app/auth/services/register_service.dart';
 import 'package:stocio_app/common/utils/common_utils.dart';
 import 'package:stocio_app/common/widgets/s_appbar.dart';
 import 'package:stocio_app/common/widgets/s_button.dart';
@@ -21,8 +24,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passController = TextEditingController();
   final _idController = TextEditingController();
 
-  String instituteName = "";
-  List<String> instituteNames = ["National Institute of Technology Kurukshetra, Kurukshetra"];
+  final _registerService = RegisterService();
+
+  InstituteModel institute = InstituteModel(id: "", domainIds: [], instituteName: "");
+  List<InstituteModel> instituteList = [];
 
   @override
   void dispose() {
@@ -35,37 +40,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log(instituteName);
+    log(institute.toJson().toString());
     return Scaffold(
       backgroundColor: Utils.color('pbg'),
       appBar: SAppbar(
-        title: instituteName.isEmpty ? 'Choose your institute' : 'Register',
+        title: institute.instituteName.isEmpty ? 'Choose your institute' : 'Register',
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: Utils.screenPadding(),
         child: Form(
           key: _registerKey,
-          child: instituteName.isEmpty
-              ? Column(children: [
-                  DropdownButtonFormField<String>(
-                    isExpanded: true,
-                    items: instituteNames
-                        .map((e) => DropdownMenuItem<String>(
-                              value: e,
-                              child: Text(e, overflow: TextOverflow.fade),
-                            ))
-                        .toList(),
-                    decoration: Utils.inputDecoration(label: "Choose your institute"),
-                    onChanged: (String? value) => setState(() => instituteName = value!),
-                  ),
-                ])
+          child: institute.instituteName.isEmpty
+              ? FutureBuilder(
+                  future: _fetchInstitutes(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return Column(
+                      children: [
+                        DropdownButtonFormField<InstituteModel>(
+                          isExpanded: true,
+                          items: instituteList
+                              .map((e) => DropdownMenuItem<InstituteModel>(
+                                    value: e,
+                                    child: Text(e.instituteName, overflow: TextOverflow.fade),
+                                  ))
+                              .toList(),
+                          decoration: Utils.inputDecoration(label: "Choose your institute"),
+                          onChanged: (InstituteModel? value) {
+                            if (value != null) {
+                              setState(() => institute = value);
+                            }
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                )
               : Column(
                   children: [
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        instituteName,
+                        institute.instituteName,
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 17.sp,
@@ -78,7 +97,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.only(top: 1.h, bottom: 3.h),
                         child: InkWell(
-                            onTap: () => setState(() => instituteName = ""),
+                            onTap: () =>
+                                setState(() => institute = InstituteModel(id: "", domainIds: [], instituteName: "")),
                             child: Text(
                               'Change Institute',
                               style: TextStyle(color: Utils.color('ba'), fontWeight: FontWeight.w500),
@@ -104,11 +124,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),
                     SizedBox(height: 1.5.h),
-                    // TextFormField(
-                    //   decoration: Utils.inputDecoration(label: 'Confirm password*'),
-                    //   validator: (value) => Utils.validator(value),
-                    // ),
-                    // SizedBox(height: 1.5.h),
                     TextFormField(
                       controller: _idController,
                       decoration: Utils.inputDecoration(label: 'Institute Id*'),
@@ -126,8 +141,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   _handleRegister() async {
     try {
       var state = _registerKey.currentState;
-      if(state!=null && state.validate()) {
-        Utils.customToast("Signing in");
+      if (state != null && state.validate()) {
+        final member = RegisterModel(
+          name: _nameController.text.trim(),
+          email: _emailController.text.toLowerCase().trim(),
+          password: _passController.text.trim(),
+          institute: " instituteId",
+          instituteId: _idController.text.trim(),
+        );
+
+        await _registerService.registerMember(member);
+
+        if (!mounted) return;
         showModalBottomSheet(
             useSafeArea: true,
             isDismissible: false,
@@ -150,6 +175,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               );
             });
+      }
+    } catch (e, stack) {
+      Utils.handleError(e, stack);
+    }
+  }
+
+  _fetchInstitutes() async {
+    try {
+      if (instituteList.isEmpty) {
+        var res = await _registerService.fetchInstitutes();
+
+        log(res.data.toString());
+        instituteList =
+            (res.data as List<dynamic>?)?.map((e) => InstituteModel.fromJson(e as Map<String, dynamic>)).toList() ?? [];
       }
     } catch (e, stack) {
       Utils.handleError(e, stack);

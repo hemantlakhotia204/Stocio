@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:stocio_app/auth/services/login_service.dart';
 import 'package:stocio_app/common/store/shared_preference_repo.dart';
 import 'package:stocio_app/common/utils/common_utils.dart';
 import 'package:stocio_app/common/widgets/s_button.dart';
@@ -114,11 +115,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (state1 != null && state2 != null) {
         if (state1.validate() && state2.validate()) {
-          // String email = _emailController.text.trim();
-          // String pass = _passController.text.trim();
-          // do login
+          String email = _emailController.text.trim();
+          String pass = _passController.text.trim();
 
-          await SharedPrefRepo.save("at", "at");
+          final res = await LoginService().loginMember(email, pass);
+
+          await SharedPrefRepo.save("at", res.data["at"]);
           if (!mounted) return;
           Utils.customToast("User logged in");
           Navigator.of(context).pushReplacementNamed("/home");

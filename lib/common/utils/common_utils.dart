@@ -1,3 +1,5 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -12,7 +14,6 @@ class Utils {
   }
 
   static color([String type = '']) {
-
     const primaryColor = Color(0xfff8f8fa);
     const secondaryColor = Color(0xff3456ff);
     const textColor = Color(0xff070928);
@@ -65,13 +66,25 @@ class Utils {
   }
 
   static handleError(dynamic e, dynamic stack) {
+    debugPrint(e.toString());
     debugPrintStack(stackTrace: stack);
-    customToast(e.toString(), true);
+    if (e.runtimeType.toString() == "_Exception") {
+      // ILoader.hideLoaderDialog(navigatorKey.currentContext!);
+      customToast(e.message, true);
+    } else if (e.runtimeType == DioError && e.message != null) {
+      customToast(e.message, true);
+    } else {
+      // ILoader.hideLoaderDialog(navigatorKey.currentContext!);
+      customToast("Server error, please try again later.", true);
+    }
   }
 
   static inputDecoration({required String label, Widget? suffixIcon}) {
     return InputDecoration(
-      label: Text(label, style: TextStyle(fontSize: 16.sp, color: Utils.color('pt'), letterSpacing: 2.sp),),
+      label: Text(
+        label,
+        style: TextStyle(fontSize: 16.sp, color: Utils.color('pt'), letterSpacing: 2.sp),
+      ),
       contentPadding: EdgeInsets.symmetric(vertical: 2.5.h, horizontal: 5.w),
       suffixIcon: suffixIcon,
       focusedBorder: OutlineInputBorder(
@@ -91,5 +104,13 @@ class Utils {
         borderSide: BorderSide(color: Colors.redAccent, width: 0.5.w),
       ),
     );
+  }
+
+  static Future<ConnectionState> checkInternetStatus() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi) {
+      return ConnectionState.none;
+    }
+    return ConnectionState.active;
   }
 }
